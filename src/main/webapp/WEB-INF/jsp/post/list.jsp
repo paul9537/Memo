@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>SignIn page</title>
+<title>List Page</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -19,70 +20,41 @@
 	<link rel="stylesheet" href="/static/css/style.css" type="text/css">
 </head>
 <body>
-	
+
 	<div id="wrap">
 		<c:import url="/WEB-INF/jsp/include/header.jsp" />
 		
-		<section class="d-flex justify-content-center my-5">
-			<form id="loginForm">
-				<div class="join-box">
+		<section class="d-flex justify-content-center">
+			<div class="w-75 my-5">
+				<h1 class="text-center">메모 리스트</h1>
 				
-					<input type="text" id="loginIdInput" class="form-control mt-3" placeholder="아이디" >
-					<input type="password" id="passwordInput" class="form-control mt-3" placeholder="비밀번호" >
-					<button type="submit" class="btn btn-info btn-block mt-3">로그인</button>
-					
-					<div class="text-center mt-2">
-						<a href="/user/signup_view">회원가입</a>
-					</div>
+				<table class="table text-center mt-3">
+					<thead>
+						<tr>
+							<th>No.</th>
+							<th>제목</th>
+							<th>시간</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach var="post" items="${postList }">
+						<tr>
+							<td>${post.id }</td>
+							<td><a href="/post/detail_view?id=${post.id }">${post.subject } </a></td>
+							<td><fmt:formatDate value="${post.createdAt }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
+						</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+				
+				<div class="d-flex justify-content-end">
+					<a href="/post/create_view" class="btn btn-info">글 쓰기</a>					
 				</div>
-			</form>
+			</div>
 		</section>
 		
 		<c:import url="/WEB-INF/jsp/include/footer.jsp" />
 	</div>
-
-	<script>
-		$(document).ready(function() {
-			$("#loginForm").on("submit", function(e) {
-				e.preventDefault();
-				
-				let loginId = $("#loginIdInput").val();
-				let password = $("#passwordInput").val();
-				
-				if(loginId == "") {
-					alert("아이디를 입력하세요");
-					return ;
-				}
-				
-				if(password == "") {
-					alert("비밀번호를 입력하세요");
-					return ;
-				}
-				
-				$.ajax({
-					type:"post",
-					url:"/user/sign_in",
-					data:{"loginId":loginId, "password":password},
-					success:function(data) {
-						if(data.result == "success") {
-							location.href="/post/list_view";
-						} else {
-							alert("아이디/비밀번호를 확인해 주세요");
-						}
-					},
-					error:function() {
-						alert("로그인 에러");
-					}
-				
-				});
-				
-			});
-			
-			
-		});	
-	
-	</script>
-
 
 </body>
 </html>
