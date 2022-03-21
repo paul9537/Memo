@@ -19,6 +19,7 @@ public class PostBO {
 		
 		// 파일을 저장하고, 경로를 만들어 낸다.
 		
+		
 		return postDAO.insertPost(userId, subject, content);
 	}
 	
