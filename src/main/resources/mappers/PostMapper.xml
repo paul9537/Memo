@@ -11,12 +11,14 @@
  			`userId`
  			, `subject`
  			, `content`
+ 			, `imagePath`
  			, `createdAt`
  			, `updatedAt`
  		) VALUE (
  			#{userId}
  			, #{subject}
  			, #{content}
+ 			, #{filePath}
  			, now()
  			, now()
  		)
@@ -52,4 +54,21 @@
  		WHERE
  			`id` = #{id}
  	</select>
+ 	
+	<update id="updatePost" parameterType="map">
+		UPDATE `post`
+		SET
+			`subject` = #{subject} 
+			, `content` = #{content}
+			, `updatedAt` = now()
+		WHERE
+			`id` = #{postId}
+	</update>
+ 	
+	<delete id="deletePost" parameterType="int">
+		DELETE FROM `post`
+		WHERE
+			`id` = #{postId}
+			AND `userId` = #{userId}
+	</delete>
  </mapper>

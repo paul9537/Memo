@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.paul9537.memo.common.FileManagerService;
 import com.paul9537.memo.post.dao.PostDAO;
 import com.paul9537.memo.post.model.Post;
 
@@ -18,9 +19,9 @@ public class PostBO {
 	public int addPost(int userId, String subject, String content, MultipartFile file) {
 		
 		// 파일을 저장하고, 경로를 만들어 낸다.
+		String filePath = FileManagerService.saveFile(userId, file);
 		
-		
-		return postDAO.insertPost(userId, subject, content);
+		return postDAO.insertPost(userId, subject, content, filePath);
 	}
 	
 	public List<Post> getPostList(int userId) {
@@ -29,6 +30,19 @@ public class PostBO {
 	
 	public Post getPost(int id) {
 		return postDAO.selectPost(id);
+	}
+	
+	public int updatePost(int postId, String subject, String content) {
+		return postDAO.updatePost(postId, subject, content);
+	}
+	
+	public int deletePost(int postId, int userId) {
+		
+		Post post = this.getPost(postId);
+		// 파일 삭제 
+		FileManagerService.removeFile(post.getImagePath());
+		
+		return postDAO.deletePost(postId, userId);
 	}
 	
 }

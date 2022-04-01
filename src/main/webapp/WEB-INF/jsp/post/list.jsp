@@ -16,6 +16,8 @@
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
 	<link rel="stylesheet" href="/static/css/style.css" type="text/css">
 </head>
@@ -26,7 +28,7 @@
 		
 		<section class="d-flex justify-content-center">
 			<div class="w-75 my-5">
-				<h1 class="text-center">메모 리스트</h1>
+				<h1 class="text-center">메모 리스트 <i class="bi bi-heart"></i></h1>
 				
 				<table class="table text-center mt-3">
 					<thead>
